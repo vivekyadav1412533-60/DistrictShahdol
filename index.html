@@ -1,0 +1,489 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shahdol Live Dashboard</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,sans-serif;
+  background:#101827;color:white;
+}
+header{
+  padding:22px 12px;
+  text-align:center;
+  background:linear-gradient(120deg,#063b68,#087d9b);
+}
+header h1{font-size:30px}
+header p{margin-top:8px;color:#d5f6ff}
+nav{
+  display:flex;justify-content:center;
+  flex-wrap:wrap;gap:10px;
+  background:#17283d;padding:13px;
+}
+button,.navbtn{
+  border:0;border-radius:9px;padding:11px 15px;
+  background:#087fae;color:white;
+  font-size:15px;cursor:pointer;
+}
+main{max-width:1100px;margin:auto;padding:15px}
+.section{
+  background:#1b2b40;border-radius:14px;
+  padding:18px;margin:16px 0;
+}
+h2{color:#4de5ff;margin-bottom:15px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:13px;
+}
+.card{
+  background:#263c55;padding:15px;
+  border-radius:12px;min-width:0;
+}
+.card p{color:#d5e5f2;margin-top:8px;line-height:1.5}
+a{color:#54ddff;text-decoration:none}
+a:hover{text-decoration:underline}
+input{
+  padding:12px;border-radius:8px;
+  border:0;width:70%;max-width:400px;
+  font-size:16px;
+}
+.search{display:flex;gap:8px;flex-wrap:wrap}
+#weather{font-size:20px}
+#game{
+  width:100%;height:auto;
+  background:#85d8ff;border:3px solid white;
+  border-radius:10px;touch-action:none;
+}
+.gamebuttons{
+  display:flex;justify-content:center;
+  gap:12px;margin:12px;flex-wrap:wrap;
+}
+.gamebuttons button{font-size:19px}
+.newsimage{
+  width:100%;height:115px;object-fit:cover;
+  border-radius:8px;margin-bottom:10px;
+}
+footer{
+  text-align:center;padding:22px;
+  color:#aab9c9;
+}
+.small{font-size:13px;color:#aebed0}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>📍 SHAHDOL DISTRICT</h1>
+  <p>Madhya Pradesh | Live News & Adventure Game</p>
+</header>
+
+<nav>
+  <button onclick="showSection('home')">🏠 Home</button>
+  <button onclick="showSection('news')">📰 News</button>
+  <button onclick="showSection('weather')">🌦️ Weather</button>
+  <button onclick="showSection('places')">📸 Places</button>
+  <button onclick="showSection('gamearea')">🎮 Game</button>
+</nav>
+
+<main>
+
+<section class="section" id="home">
+  <h2>Welcome to Shahdol 👋</h2>
+  <p>शहडोल जिले की जानकारी, समाचार, मौसम और मनोरंजन एक ही जगह!</p>
+  <br>
+  <div class="search">
+    <input id="district" value="Shahdol" placeholder="District name">
+    <button onclick="searchDistrict()">🔍 Search</button>
+  </div>
+  <br>
+  <div class="grid">
+    <div class="card">
+      <h3>📍 District</h3>
+      <p id="districtName">Shahdol, Madhya Pradesh</p>
+    </div>
+    <div class="card">
+      <h3>🌐 Official Website</h3>
+      <p><a href="https://shahdol.nic.in/" target="_blank">Visit Shahdol Portal ↗</a></p>
+    </div>
+    <div class="card">
+      <h3>📰 Latest Updates</h3>
+      <p>नीचे ताज़ा समाचार देखें।</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="news">
+  <h2>📰 Shahdol Live News</h2>
+  <p class="small">समाचार इंटरनेट से लोड होंगे। खबरों की पुष्टि संबंधित स्रोत पर करें।</p>
+  <br>
+  <button onclick="loadNews()">🔄 Refresh News</button>
+  <div class="grid" id="newsList" style="margin-top:15px">
+    <div class="card">खबरें लोड हो रही हैं...</div>
+  </div>
+  <br>
+  <a href="https://www.amarujala.com/madhya-pradesh/shahdol"
+     target="_blank">और खबरें पढ़ें ↗</a>
+  <br><br>
+  <a href="https://public.app/district/news-in-shahdol"
+     target="_blank">Shahdol Local News ↗</a>
+</section>
+
+<section class="section" id="weather">
+  <h2>🌦️ Shahdol Weather</h2>
+  <div class="card" id="weatherBox">
+    मौसम लोड हो रहा है...
+  </div>
+  <br>
+  <button onclick="loadWeather()">Refresh Weather</button>
+  <p class="small">मौसम की जानकारी Open-Meteo से मिलेगी।</p>
+</section>
+
+<section class="section" id="places">
+  <h2>📸 Shahdol Tourist Places</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>🏞️ Sarsi Island</h3>
+      <p>सारसी आइलैंड रिज़ॉर्ट की जानकारी।</p>
+    </div>
+    <div class="card">
+      <h3>🛕 Budhi Mata Temple</h3>
+      <p>बूढ़ी माता मंदिर।</p>
+    </div>
+    <div class="card">
+      <h3>🌳 Ghati Dongari</h3>
+      <p>प्राकृतिक पर्यटन स्थल।</p>
+    </div>
+    <div class="card">
+      <h3>🏞️ Bhatia Devi Temple</h3>
+      <p>भाटिया देवी मंदिर।</p>
+    </div>
+    <div class="card">
+      <h3>🐘 Sanjay National Park</h3>
+      <p>प्राकृतिक वन्यजीव क्षेत्र।</p>
+    </div>
+    <div class="card">
+      <h3>🌿 Lakhbariya Caves</h3>
+      <p>लाखबारिया गुफाएं।</p>
+    </div>
+  </div>
+  <br>
+  <a href="https://shahdol.nic.in/en/" target="_blank">
+    Official District Gallery ↗
+  </a>
+</section>
+
+<section class="section" id="gamearea">
+  <h2>🎮 PLAYER ADVENTURE GAME</h2>
+  <p>Coins इकट्ठा करो और अपना Score बढ़ाओ!</p>
+  <br>
+  <div class="card">
+    🏆 Score: <span id="score">0</span>
+  </div>
+  <br>
+  <canvas id="game" width="900" height="430"></canvas>
+  <div class="gamebuttons">
+    <button id="left">⬅️</button>
+    <button id="jump">⬆️ JUMP</button>
+    <button id="right">➡️</button>
+    <button onclick="restart()">🔄 Restart</button>
+  </div>
+  <p class="small">Computer: Arrow keys / A-D और Space से Jump।</p>
+</section>
+
+</main>
+
+<footer>
+  SHAHDOL DISTRICT DASHBOARD © 2026
+  <p>Made with ❤️ using HTML, CSS & JavaScript</p>
+</footer>
+
+<script>
+// Navigation
+function showSection(id){
+  document.getElementById(id).scrollIntoView({
+    behavior:"smooth"
+  });
+}
+
+// District search
+function searchDistrict(){
+  let name=document.getElementById("district").value.trim();
+  if(!name)return;
+  document.getElementById("districtName").textContent=name+", India";
+  loadNews(name);
+}
+
+// News feed
+async function loadNews(name="Shahdol"){
+  const box=document.getElementById("newsList");
+  box.innerHTML='<div class="card">Loading latest news...</div>';
+
+  const rss="https://news.google.com/rss/search?q="
+    +encodeURIComponent(name+" Madhya Pradesh")
+    +"&hl=hi&gl=IN&ceid=IN:hi";
+
+  try{
+    const url="https://api.rss2json.com/v1/api.json?rss_url="
+      +encodeURIComponent(rss);
+
+    const response=await fetch(url);
+    if(!response.ok)throw Error("Network error");
+
+    const data=await response.json();
+    if(!data.items || !data.items.length)throw Error("No news");
+
+    box.innerHTML="";
+
+    data.items.slice(0,12).forEach(item=>{
+      const card=document.createElement("div");
+      card.className="card";
+
+      const title=document.createElement("h3");
+      title.textContent=item.title;
+
+      const date=document.createElement("p");
+      date.textContent=item.pubDate || "Latest update";
+
+      const link=document.createElement("a");
+      link.href=item.link;
+      link.target="_blank";
+      link.rel="noopener noreferrer";
+      link.textContent="Read full news ↗";
+
+      card.append(title,date,link);
+      box.appendChild(card);
+    });
+  }catch(error){
+    box.innerHTML=`
+      <div class="card">
+        <h3>समाचार लोड नहीं हो पाए।</h3>
+        <p>इंटरनेट या समाचार सेवा उपलब्ध नहीं है।</p>
+        <br>
+        <a target="_blank"
+        href="https://news.google.com/search?q=Shahdol">
+        Google News खोलें ↗</a>
+      </div>`;
+  }
+}
+
+// Weather
+async function loadWeather(){
+  const box=document.getElementById("weatherBox");
+  box.textContent="Loading weather...";
+
+  try{
+    const url="https://api.open-meteo.com/v1/forecast?latitude=23.30&longitude=81.36&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m&timezone=Asia%2FKolkata";
+
+    const response=await fetch(url);
+    if(!response.ok)throw Error("Weather error");
+
+    const data=await response.json();
+    const w=data.current;
+
+    box.innerHTML=`
+      <h3>📍 Shahdol Weather</h3><br>
+      🌡️ Temperature: ${w.temperature_2m}°C<br><br>
+      💧 Humidity: ${w.relative_humidity_2m}%<br><br>
+      🌬️ Wind Speed: ${w.wind_speed_10m} km/h<br><br>
+      🌡️ Feels Like: ${w.apparent_temperature}°C
+    `;
+  }catch(e){
+    box.textContent="मौसम की जानकारी अभी उपलब्ध नहीं है।";
+  }
+}
+
+// Game
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
+
+let player,coins,score,keys,ground;
+ground=350;
+
+function restart(){
+  player={
+    x:80,y:290,w:35,h:60,
+    vx:0,vy:0,grounded:false
+  };
+
+  coins=[
+    {x:250,y:300,t:false},
+    {x:390,y:300,t:false},
+    {x:530,y:300,t:false},
+    {x:670,y:300,t:false},
+    {x:800,y:300,t:false}
+  ];
+
+  score=0;
+  keys={};
+  document.getElementById("score").textContent=0;
+}
+
+document.addEventListener("keydown",e=>{
+  keys[e.key.toLowerCase()]=true;
+
+  if(["ArrowLeft","ArrowRight","ArrowUp"," "].includes(e.key)){
+    e.preventDefault();
+  }
+
+  if((e.code==="Space"||e.key==="ArrowUp")
+     &&player.grounded){
+    player.vy=-13;
+    player.grounded=false;
+  }
+});
+
+document.addEventListener("keyup",e=>{
+  keys[e.key.toLowerCase()]=false;
+});
+
+function bind(id,key){
+  const b=document.getElementById(id);
+
+  b.addEventListener("pointerdown",e=>{
+    e.preventDefault();
+    keys[key]=true;
+
+    if(key==="jump"&&player.grounded){
+      player.vy=-13;
+      player.grounded=false;
+    }
+  });
+
+  ["pointerup","pointerleave","pointercancel"].forEach(ev=>{
+    b.addEventListener(ev,()=>keys[key]=false);
+  });
+}
+
+bind("left","left");
+bind("right","right");
+bind("jump","jump");
+
+function world(){
+  ctx.fillStyle="#83d8ff";
+  ctx.fillRect(0,0,900,430);
+
+  // Sun
+  ctx.fillStyle="#ffe34a";
+  ctx.beginPath();
+  ctx.arc(770,75,35,0,Math.PI*2);
+  ctx.fill();
+
+  // Clouds
+  ctx.fillStyle="white";
+  [100,350,570].forEach(x=>{
+    ctx.beginPath();
+    ctx.arc(x,90,23,0,Math.PI*2);
+    ctx.arc(x+25,80,27,0,Math.PI*2);
+    ctx.arc(x+50,90,22,0,Math.PI*2);
+    ctx.fill();
+  });
+
+  // Trees
+  [190,450,720].forEach(x=>{
+    ctx.fillStyle="#79502c";
+    ctx.fillRect(x,270,20,80);
+    ctx.fillStyle="#168b36";
+    ctx.beginPath();
+    ctx.arc(x+10,255,40,0,Math.PI*2);
+    ctx.fill();
+  });
+
+  // Ground
+  ctx.fillStyle="#279b3d";
+  ctx.fillRect(0,ground,900,80);
+  ctx.fillStyle="#7bdc4c";
+  ctx.fillRect(0,ground,900,10);
+}
+
+function drawPlayer(){
+  ctx.fillStyle="#ffcc99";
+  ctx.beginPath();
+  ctx.arc(player.x+17,player.y+10,12,0,Math.PI*2);
+  ctx.fill();
+
+  ctx.fillStyle="#28202a";
+  ctx.fillRect(player.x+5,player.y-3,25,8);
+
+  ctx.fillStyle="#f32c35";
+  ctx.fillRect(player.x+5,player.y+23,25,23);
+
+  ctx.fillStyle="#ffcc99";
+  ctx.fillRect(player.x,player.y+25,7,18);
+  ctx.fillRect(player.x+29,player.y+25,7,18);
+
+  ctx.fillStyle="#20346e";
+  ctx.fillRect(player.x+6,player.y+46,10,14);
+  ctx.fillRect(player.x+20,player.y+46,10,14);
+}
+
+function update(){
+  player.vx=0;
+
+  if(keys["arrowleft"]||keys["a"]||keys["left"])
+    player.vx=-5;
+
+  if(keys["arrowright"]||keys["d"]||keys["right"])
+    player.vx=5;
+
+  player.x+=player.vx;
+  player.vy+=0.6;
+  player.y+=player.vy;
+
+  player.x=Math.max(0,Math.min(865,player.x));
+
+  if(player.y+player.h>=ground){
+    player.y=ground-player.h;
+    player.vy=0;
+    player.grounded=true;
+  }else{
+    player.grounded=false;
+  }
+
+  coins.forEach(c=>{
+    if(!c.t &&
+       Math.abs(player.x+17-c.x)<25 &&
+       Math.abs(player.y+30-c.y)<35){
+      c.t=true;
+      score+=10;
+      document.getElementById("score").textContent=score;
+    }
+  });
+}
+
+function draw(){
+  world();
+
+  coins.forEach(c=>{
+    if(!c.t){
+      ctx.fillStyle="#ffdc00";
+      ctx.beginPath();
+      ctx.arc(c.x,c.y,13,0,Math.PI*2);
+      ctx.fill();
+      ctx.strokeStyle="#e58a00";
+      ctx.lineWidth=3;
+      ctx.stroke();
+    }
+  });
+
+  drawPlayer();
+}
+
+function loop(){
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+
+restart();
+loop();
+loadNews();
+loadWeather();
+</script>
+</body>
+</html>
